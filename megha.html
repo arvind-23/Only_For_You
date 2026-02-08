@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Megha ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --primary-pink: #ff4d6d;
+            --secondary-pink: #ff85a1;
+            --bg-light: #fff0f3;
+            --text-dark: #2d3436;
+            --heart-gradient: linear-gradient(45deg, #ff4d6d, #ff758c);
+        }
+
+        body {
+            margin: 0; padding: 0;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh;
+            background-color: var(--bg-light);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden; text-align: center;
+        }
+
+        /* --- ENTRANCE PAGE: BOLD & SENSUAL --- */
+        #reveal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-light);
+            z-index: 100;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 1.2s ease-in-out;
+        }
+
+        .elegant-heart {
+            position: relative; width: 160px; height: 145px;
+            cursor: pointer; 
+            animation: sensualThrob 2.5s infinite ease-in-out;
+            filter: drop-shadow(0 0 30px rgba(255, 77, 109, 0.5));
+        }
+        .elegant-heart:before, .elegant-heart:after {
+            content: ""; position: absolute; left: 80px; top: 0;
+            width: 80px; height: 135px; 
+            background: var(--heart-gradient);
+            border-radius: 80px 80px 0 0;
+            transform: rotate(-45deg); transform-origin: 0 100%;
+            box-shadow: inset -5px -5px 15px rgba(0,0,0,0.1);
+        }
+        .elegant-heart:after { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
+
+        @keyframes sensualThrob {
+            0% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(255, 77, 109, 0.3)); }
+            45% { transform: scale(1.2); filter: drop-shadow(0 0 45px rgba(255, 77, 109, 0.7)); }
+            100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(255, 77, 109, 0.3)); }
+        }
+
+        .entrance-text {
+            margin-top: 60px; 
+            font-family: 'Dancing Script', cursive; 
+            font-weight: 800;
+            color: var(--primary-pink); 
+            font-size: 3.5rem; /* Larger, Bolder, and Handwritten */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* --- BACKGROUND FLOATING HEARTS --- */
+        .hearts-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        .heart-particle { position: absolute; color: var(--secondary-pink); opacity: 0.3; animation: float 6s infinite linear; }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- MAIN CARD --- */
+        #main-card {
+            background: white; padding: 40px; border-radius: 30px;
+            box-shadow: 0 15px 45px rgba(255, 77, 109, 0.2);
+            z-index: 10; max-width: 500px; width: 90%; border: 2px solid white;
+            display: none; animation: fadeIn 1.2s ease;
+        }
+
+        h1 { color: var(--primary-pink); font-family: 'Dancing Script', cursive; font-size: 2.8rem; margin-bottom: 20px; }
+
+        /* --- MINIMALIST BUTTONS --- */
+        .btn-container { margin-top: 40px; display: flex; justify-content: center; gap: 30px; position: relative; height: 100px; align-items: center; }
+        
+        button {
+            padding: 14px 40px; font-size: 0.95rem; border: none; border-radius: 10px;
+            cursor: pointer; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        #yesBtn { background: var(--text-dark); color: white; box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); }
+        #yesBtn:hover { transform: scale(1.1) translateY(-3px); background: var(--primary-pink); }
+        #noBtn { background: white; color: var(--text-dark); border: 1px solid #ddd; position: absolute; }
+
+        /* --- SUCCESS SECTION --- */
+        #success-screen { display: none; }
+        
+        .carousel-container {
+            position: relative; width: 350px; height: 450px;
+            margin: 20px auto; background: white; padding: 15px 15px 60px 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); transform: rotate(-2deg);
+        }
+
+        .carousel-slide {
+            position: absolute; top: 15px; left: 15px; width: 350px; height: 350px;
+            opacity: 0; transition: opacity 1s ease-in-out; pointer-events: auto;
+        }
+
+        .carousel-slide.active { opacity: 1; z-index: 2; }
+        .carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
+
+        .note-reveal {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 77, 109, 0.92); color: white;
+            display: flex; justify-content: center; align-items: center;
+            padding: 25px; box-sizing: border-box; font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem; opacity: 0; transition: opacity 0.4s ease;
+        }
+
+        .carousel-slide:hover .note-reveal { opacity: 1; }
+
+        .whatsapp-link {
+            margin-top: 25px; color: var(--primary-pink); text-decoration: none;
+            display: inline-block; font-size: 0.8rem; font-weight: 600;
+            border-bottom: 1px solid var(--primary-pink); letter-spacing: 1px;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body>
+
+    <div id="reveal-overlay" onclick="revealPage()">
+        <div class="elegant-heart"></div>
+        <div class="entrance-text">For You, Megha</div>
+    </div>
+
+    <div class="hearts-bg" id="hearts-bg"></div>
+
+    <audio id="beforeMusic" loop><source src="before_music.mp3" type="audio/mpeg"></audio>
+    <audio id="afterMusic" loop><source src="after_music.mp3" type="audio/mpeg"></audio>
+
+    <div id="main-card">
+        <div id="question-area">
+            <h1>Will you be my Valentine? 🌹</h1>
+            <div class="btn-container">
+                <button id="yesBtn" onclick="celebrate()">Yes</button>
+                <button id="noBtn" onmouseover="moveBtn()" onclick="moveBtn()">No</button>
+            </div>
+        </div>
+
+        <div id="success-screen">
+            <h1>I knew you'd say yes! ❤️</h1>
+            <div class="carousel-container">
+                <div class="carousel-slide active">
+                    <img src="img1.jpg" alt="Memory 1">
+                    <div class="note-reveal">This moment stays in my heart forever...</div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="img2.jpg" alt="Memory 2">
+                    <div class="note-reveal">Megha, your smile is my favorite thing.</div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="img3.jpg" alt="Memory 3">
+                    <div class="note-reveal">I can't wait to make more memories with you!</div>
+                </div>
+            </div>
+            <p style="color: #888; font-size: 0.9rem;">(Hover to read my notes)</p>
+            <a href="#" class="whatsapp-link" onclick="sendWhatsApp()">MESSAGE ME ON WHATSAPP</a>
+        </div>
+    </div>
+
+    <script>
+        const beforeMusic = document.getElementById('beforeMusic');
+        const afterMusic = document.getElementById('afterMusic');
+
+        function revealPage() {
+            document.getElementById('reveal-overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('reveal-overlay').style.display = 'none';
+                document.getElementById('main-card').style.display = 'block';
+                beforeMusic.play();
+            }, 1200);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-particle');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.getElementById('hearts-bg').appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
+        }
+        setInterval(createHeart, 300);
+
+        function moveBtn() {
+            const btn = document.getElementById('noBtn');
+            const card = document.getElementById('main-card');
+            const x = Math.random() * (card.clientWidth - btn.clientWidth - 40);
+            const y = Math.random() * (card.clientHeight - btn.clientHeight - 40);
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        function startCarousel() {
+            const slides = document.querySelectorAll('.carousel-slide');
+            let i = 0;
+            setInterval(() => {
+                if (!document.querySelector('.carousel-container:hover')) {
+                    slides[i].classList.remove('active');
+                    i = (i + 1) % slides.length;
+                    slides[i].classList.add('active');
+                }
+            }, 5000);
+        }
+
+        function celebrate() {
+            document.getElementById('question-area').style.display = 'none';
+            document.getElementById('success-screen').style.display = 'block';
+            beforeMusic.pause();
+            afterMusic.play();
+            startCarousel();
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+        }
+
+        function sendWhatsApp() {
+            const phone = "9307640895"; // CHANGE THIS TO YOUR NUMBER
+            const text = "Megha said YES! ❤️";
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
