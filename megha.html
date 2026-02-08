@@ -4,14 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>For Megha ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         :root {
             --primary-pink: #ff4d6d;
             --bg-light: #fff0f3;
             --text-dark: #2d3436;
-            --heart-gradient: linear-gradient(45deg, #ff4d6d, #ff758c);
+        }
+
+        /* --- GLOBAL MOBILE FIXES --- */
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            box-sizing: border-box;
         }
 
         body {
@@ -19,219 +27,184 @@
             display: flex; justify-content: center; align-items: center;
             min-height: 100vh; background-color: var(--bg-light);
             font-family: 'Poppins', sans-serif; overflow: hidden;
-            touch-action: manipulation;
         }
 
         /* --- ENTRANCE --- */
         #reveal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-light); z-index: 1000;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 0.8s ease;
+            position: fixed; inset: 0; background: var(--bg-light);
+            z-index: 1000; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
         }
 
-        .elegant-heart {
-            position: relative; width: 140px; height: 125px;
-            cursor: pointer; animation: throb 2.5s infinite ease-in-out;
+        .heart-icon {
+            width: 100px; height: 90px; background: var(--primary-pink);
+            position: relative; transform: rotate(-45deg);
+            animation: pulse 2s infinite; cursor: pointer;
         }
-        .elegant-heart:before, .elegant-heart:after {
-            content: ""; position: absolute; left: 70px; top: 0;
-            width: 70px; height: 115px; background: var(--heart-gradient);
-            border-radius: 70px 70px 0 0; transform: rotate(-45deg); transform-origin: 0 100%;
+        .heart-icon:before, .heart-icon:after {
+            content: ""; width: 100px; height: 100px;
+            background: var(--primary-pink); border-radius: 50%;
+            position: absolute;
         }
-        .elegant-heart:after { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
+        .heart-icon:before { top: -50px; left: 0; }
+        .heart-icon:after { left: 50px; top: 0; }
 
-        @keyframes throb { 0%, 100% { transform: scale(1); } 45% { transform: scale(1.15); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1) rotate(-45deg); } 45% { transform: scale(1.15) rotate(-45deg); } }
 
-        .entrance-text {
-            margin-top: 40px; font-family: 'Dancing Script', cursive; 
-            color: var(--primary-pink); font-size: 2.5rem; font-weight: 800;
-        }
-
-        /* --- CARD & BUTTONS --- */
+        /* --- CARD & SIDE-BY-SIDE BUTTONS --- */
         #main-card {
-            background: white; padding: 30px; border-radius: 30px;
-            box-shadow: 0 15px 45px rgba(255, 77, 109, 0.2);
-            z-index: 10; max-width: 400px; width: 85%; min-height: 450px;
-            display: none; position: relative; text-align: center;
+            background: white; padding: 30px; border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(255, 77, 109, 0.2);
+            width: 90%; max-width: 400px; text-align: center; display: none;
+            position: relative; min-height: 450px;
         }
 
-        .btn-container { margin-top: 40px; position: relative; height: 150px; display: flex; justify-content: center; gap: 20px; }
-        
+        /* SIDE BY SIDE FIX */
+        .btn-row {
+            display: flex; justify-content: center; align-items: center;
+            gap: 15px; margin-top: 30px; position: relative; height: 120px;
+        }
+
         button {
-            padding: 12px 30px; font-size: 0.9rem; border: none; border-radius: 12px;
-            cursor: pointer; font-weight: 600; font-family: 'Montserrat', sans-serif;
-            text-transform: uppercase;
+            padding: 12px 25px; border-radius: 12px; border: none;
+            font-weight: 600; cursor: pointer; font-family: 'Poppins';
         }
 
-        #yesBtn { background: var(--text-dark); color: white; position: relative; z-index: 1; }
-        #noBtn { 
-            background: #f0f0f0; color: var(--text-dark); position: relative; z-index: 2; 
-            -webkit-tap-highlight-color: transparent;
-        }
+        #yesBtn { background: var(--text-dark); color: white; min-width: 100px; }
+        #noBtn { background: #eee; color: var(--text-dark); min-width: 100px; transition: 0.1s; }
 
         /* --- CAROUSEL --- */
-        #success-screen { display: none; }
-        .carousel-container {
-            position: relative; width: 280px; height: 380px;
-            margin: 20px auto; background: white; padding: 10px 10px 40px 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1); transform: rotate(-1deg);
-        }
-        .carousel-slide {
-            position: absolute; top: 10px; left: 10px; width: 280px; height: 300px;
-            opacity: 0; transition: opacity 0.8s; cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .carousel-slide.active { opacity: 1; z-index: 5; }
-        .carousel-slide img { 
-            width: 100%; height: 100%; object-fit: cover; 
-            pointer-events: none; -webkit-touch-callout: none;
-        }
-        
-        .note-reveal {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 77, 109, 0.95); color: white;
-            display: flex; justify-content: center; align-items: center;
-            padding: 20px; font-family: 'Dancing Script', cursive; font-size: 1.6rem;
-            opacity: 0; transition: opacity 0.3s; pointer-events: none;
-        }
-        .carousel-slide.active-note .note-reveal { opacity: 1; }
-
-        .wa-link {
-            margin-top: 20px; display: inline-block; color: var(--primary-pink);
-            font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--primary-pink);
-            font-size: 0.8rem; letter-spacing: 1px;
+        .carousel-box {
+            position: relative; width: 280px; height: 350px;
+            margin: 20px auto; background: white; padding: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .hearts-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        .slide {
+            position: absolute; inset: 10px; opacity: 0;
+            transition: opacity 0.6s ease; pointer-events: auto;
+        }
+        .slide.active { opacity: 1; z-index: 10; }
+
+        .slide img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+
+        .note {
+            position: absolute; inset: 0; background: rgba(255, 77, 109, 0.95);
+            color: white; display: flex; justify-content: center; align-items: center;
+            padding: 20px; font-family: 'Dancing Script', cursive; font-size: 1.5rem;
+            opacity: 0; transition: 0.3s; pointer-events: none;
+        }
+        .slide.show-note .note { opacity: 1; }
+
+        .wa-btn {
+            display: inline-block; margin-top: 20px; color: var(--primary-pink);
+            text-decoration: none; font-weight: 600; font-size: 0.8rem;
+        }
+
+        .heart-bg { position: fixed; top: 0; z-index: -1; pointer-events: none; }
     </style>
 </head>
 <body>
 
-    <div id="reveal-overlay" onclick="revealPage()">
-        <div class="elegant-heart"></div>
-        <div class="entrance-text">For You, Megha</div>
+    <div id="reveal-overlay" onclick="startApp()">
+        <div class="heart-icon"></div>
+        <h2 style="color:var(--primary-pink); font-family:'Dancing Script'; margin-top:60px;">For Megha ❤️</h2>
     </div>
 
-    <div class="hearts-bg" id="hearts-bg"></div>
-    <audio id="beforeMusic" loop><source src="before_music.mp3" type="audio/mpeg"></audio>
-    <audio id="afterMusic" loop><source src="after_music.mp3" type="audio/mpeg"></audio>
+    <audio id="music1" loop><source src="before_music.mp3" type="audio/mpeg"></audio>
+    <audio id="music2" loop><source src="after_music.mp3" type="audio/mpeg"></audio>
 
     <div id="main-card">
-        <div id="question-area">
-            <h1 style="color:var(--primary-pink); font-family:'Dancing Script';">Will you be my Valentine? 🌹</h1>
-            <div class="btn-container">
+        <div id="step1">
+            <h1 style="font-family:'Dancing Script'; color:var(--primary-pink);">Will you be my Valentine? 🌹</h1>
+            <div class="btn-row">
                 <button id="yesBtn" onclick="celebrate()">Yes</button>
-                <button id="noBtn">No</button>
+                <button id="noBtn" onmouseover="moveNo()" ontouchstart="moveNo(event)">No</button>
             </div>
         </div>
 
-        <div id="success-screen">
-            <h1 style="color:var(--primary-pink); font-family:'Dancing Script';">I love you, Megha! ❤️</h1>
-            <div class="carousel-container">
-                <div class="carousel-slide active" onclick="toggleNote(this)">
-                    <img src="img1.jpg"><div class="note-reveal">You are my favorite memory.</div>
+        <div id="step2" style="display:none;">
+            <h1 style="font-family:'Dancing Script'; color:var(--primary-pink);">Yay! I love you! ❤️</h1>
+            <div class="carousel-box">
+                <div class="slide active" onclick="handleTap(this)">
+                    <img src="img1.jpg"><div class="note">You're my favorite human.</div>
                 </div>
-                <div class="carousel-slide" onclick="toggleNote(this)">
-                    <img src="img2.jpg"><div class="note-reveal">Every day with you is a gift.</div>
+                <div class="slide" onclick="handleTap(this)">
+                    <img src="img2.jpg"><div class="note">Every moment with you is special.</div>
                 </div>
-                <div class="carousel-slide" onclick="toggleNote(this)">
-                    <img src="img3.jpg"><div class="note-reveal">To a lifetime of Us. ❤️</div>
+                <div class="slide" onclick="handleTap(this)">
+                    <img src="img3.jpg"><div class="note">To us, Megha! ❤️</div>
                 </div>
             </div>
-            <p style="font-size:0.7rem; color:#999;">(Tap images to read my notes)</p>
-            <a href="#" class="wa-link" onclick="sendWhatsApp()">CONFIRM ON WHATSAPP</a>
+            <a href="#" class="wa-btn" onclick="sendWA()">CONFIRM ON WHATSAPP</a>
         </div>
     </div>
 
     <script>
-        const beforeMusic = document.getElementById('beforeMusic');
-        const afterMusic = document.getElementById('afterMusic');
+        const music1 = document.getElementById('music1');
+        const music2 = document.getElementById('music2');
         const noBtn = document.getElementById('noBtn');
-        const card = document.getElementById('main-card');
-        const slides = document.querySelectorAll('.carousel-slide');
-        
-        let carouselTimer;
-        let currentIndex = 0;
-        let isCelebrated = false;
+        const slides = document.querySelectorAll('.slide');
+        let slideIndex = 0;
+        let timer;
 
-        function revealPage() {
-            document.getElementById('reveal-overlay').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('reveal-overlay').style.display = 'none';
-                document.getElementById('main-card').style.display = 'block';
-                beforeMusic.play().catch(() => {});
-            }, 800);
+        function startApp() {
+            document.getElementById('reveal-overlay').style.display = 'none';
+            document.getElementById('main-card').style.display = 'block';
+            music1.play().catch(() => {});
         }
 
-        // --- THE RUNAWAY BUTTON (GHOST CLICK FIXED) ---
-        function moveNoButton(e) {
-            if (e) e.preventDefault(); 
+        function moveNo(e) {
+            if(e) e.preventDefault();
             noBtn.style.position = 'absolute';
-            const maxX = card.offsetWidth - noBtn.offsetWidth - 20;
-            const maxY = card.offsetHeight - noBtn.offsetHeight - 20;
-            noBtn.style.left = Math.random() * maxX + 'px';
-            noBtn.style.top = Math.random() * maxY + 'px';
+            const card = document.getElementById('main-card');
+            const x = Math.random() * (card.offsetWidth - noBtn.offsetWidth - 20);
+            const y = Math.random() * (card.offsetHeight - noBtn.offsetHeight - 20);
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
         }
-        noBtn.addEventListener('touchstart', moveNoButton, {passive: false});
-        noBtn.addEventListener('mouseover', moveNoButton);
 
-        // --- CAROUSEL & NOTES ---
-        function toggleNote(el) {
-            if (el.classList.contains('active-note')) {
-                el.classList.remove('active-note');
-                resumeCarousel();
+        function handleTap(el) {
+            // Toggle the note visibility
+            const isShowing = el.classList.contains('show-note');
+            
+            // Close all first
+            slides.forEach(s => s.classList.remove('show-note'));
+            
+            if (!isShowing) {
+                el.classList.add('show-note');
+                clearInterval(timer); // Stop carousel when reading
             } else {
-                stopCarousel();
-                slides.forEach(s => s.classList.remove('active-note'));
-                el.classList.add('active-note');
+                startRotation(); // Resume when note closed
             }
         }
 
-        function resumeCarousel() {
-            if (carouselTimer) clearInterval(carouselTimer);
-            carouselTimer = setInterval(() => {
-                if (!document.querySelector('.active-note')) {
-                    slides[currentIndex].classList.remove('active');
-                    currentIndex = (currentIndex + 1) % slides.length;
-                    slides[currentIndex].classList.add('active');
+        function celebrate() {
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+            music1.pause();
+            music2.play().catch(() => {});
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            startRotation();
+        }
+
+        function startRotation() {
+            if(timer) clearInterval(timer);
+            timer = setInterval(() => {
+                const openNote = document.querySelector('.show-note');
+                if(!openNote) {
+                    slides[slideIndex].classList.remove('active');
+                    slideIndex = (slideIndex + 1) % slides.length;
+                    slides[slideIndex].classList.add('active');
                 }
             }, 3000);
         }
 
-        function stopCarousel() { clearInterval(carouselTimer); }
-
-        function celebrate() {
-            if (isCelebrated) return;
-            isCelebrated = true;
-            document.getElementById('question-area').style.display = 'none';
-            document.getElementById('success-screen').style.display = 'block';
-            beforeMusic.pause();
-            afterMusic.play().catch(() => {});
-            resumeCarousel();
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+        function sendWA() {
+            const num = "91XXXXXXXXXX"; // India code + number
+            const msg = encodeURIComponent("I saw the site Megha said YES! ❤️");
+            window.open(`https://wa.me/${num}?text=${msg}`, '_blank');
         }
-
-        function sendWhatsApp() {
-            const num = "91XXXXXXXXXX"; // YOUR NUMBER: COUNTRY CODE + NUMBER
-            const msg = "I saw the website... It's a YES! ❤️";
-            window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, '_blank');
-        }
-
-        // Floating Hearts Background
-        setInterval(() => {
-            const h = document.createElement('div');
-            h.className = 'heart-particle';
-            h.innerHTML = '❤️';
-            h.style.left = Math.random() * 100 + 'vw';
-            h.style.fontSize = (Math.random() * 15 + 10) + 'px';
-            h.style.position = 'fixed';
-            h.style.bottom = '-20px';
-            h.style.opacity = '0.4';
-            h.animate([{transform: 'translateY(0)'}, {transform: 'translateY(-110vh)'}], {duration: 4000});
-            document.getElementById('hearts-bg').appendChild(h);
-            setTimeout(() => h.remove(), 4000);
-        }, 500);
     </script>
 </body>
 </html>
