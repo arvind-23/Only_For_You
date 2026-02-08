@@ -59,19 +59,38 @@
             position: relative; min-height: 450px;
         }
 
-        /* SIDE BY SIDE FIX */
+        /* Ensure the container is a flex row */
         .btn-row {
-            display: flex; justify-content: center; align-items: center;
-            gap: 15px; margin-top: 30px; position: relative; height: 120px;
+            display: flex; 
+            flex-direction: row; /* Force horizontal */
+            justify-content: center; 
+            align-items: center; 
+            gap: 30px; /* Physical space between buttons */
+            margin-top: 50px;
+            position: relative; 
+            height: 150px; /* Room for the 'No' button to jump later */
+            width: 100%;
         }
 
         button {
-            padding: 12px 25px; border-radius: 12px; border: none;
-            font-weight: 600; cursor: pointer; font-family: 'Poppins';
+            padding: 15px 35px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            min-width: 110px; /* Ensure buttons have consistent size */
+            transition: transform 0.2s;
         }
 
-        #yesBtn { background: var(--text-dark); color: white; min-width: 100px; }
-        #noBtn { background: #eee; color: var(--text-dark); min-width: 100px; transition: 0.1s; }
+        #yesBtn { background: var(--text-dark);
+            color: white;
+            position: relative; /* Stays in the flex flow */ }
+        #noBtn { background: #eeeeee;
+            color: var(--text-dark);
+            position: relative; /* Starts in the flex flow */
+            left: 0; top: 0; /* Reset any previous absolute values */
+            z-index: 10; }
 
         /* --- CAROUSEL --- */
         .carousel-box {
@@ -122,6 +141,8 @@
                 <button id="noBtn" onmouseover="moveNo()" ontouchstart="moveNo(event)">No</button>
             </div>
         </div>
+    
+    </div>
 
         <div id="step2" style="display:none;">
             <h1 style="font-family:'Dancing Script'; color:var(--primary-pink);">Yay! I love you! ❤️</h1>
