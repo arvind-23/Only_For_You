@@ -83,7 +83,16 @@
         h1 { color: var(--primary-pink); font-family: 'Dancing Script', cursive; font-size: 2.8rem; margin-bottom: 20px; }
 
         /* --- MINIMALIST BUTTONS --- */
-        .btn-container { margin-top: 40px; display: flex; justify-content: center; gap: 30px; position: relative; height: 100px; align-items: center; }
+        .btn-container { 
+            display: flex; 
+            margin-top: 40px; 
+            align-items: center; 
+            justify-content: center; 
+            position: relative; 
+            gap: 20px; /* Space between them */
+            width: 100%;
+            height: 150px; /* Give them room to move */
+        }
         
         button {
             padding: 14px 40px; font-size: 0.95rem; border: none; border-radius: 10px;
@@ -92,10 +101,21 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        #yesBtn { background: var(--text-dark); color: white; box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); }
+        #yesBtn {
+            background: var(--text-dark); 
+            color: white;
+            z-index: 1; /* Keep 'Yes' behind 'No' just in case */
+        }
         #yesBtn:hover { transform: scale(1.1) translateY(-3px); background: var(--primary-pink); }
-        #noBtn { background: white; color: var(--text-dark); border: 1px solid #ddd; position: absolute; }
-
+        #noBtn {
+            color: var(--text-dark); 
+            background: white; 
+            /* Remove 'position: absolute' from here so it starts in the flex flow */
+            border: 1px solid #ddd;
+            transition: all 0.3s ease;
+            position: relative; 
+            z-index: 5;
+        }
         /* --- SUCCESS SECTION --- */
         #success-screen { display: none; }
         
@@ -208,15 +228,17 @@
         function moveBtn() {
             const btn = document.getElementById('noBtn');
             const card = document.getElementById('main-card');
-
-            // We calculate boundaries based on the CARD, not the whole screen
-            // This keeps the button trapped inside the white box
-            const maxX = card.clientWidth - btn.clientWidth - 20;
-            const maxY = card.clientHeight - btn.clientHeight - 20;
     
+            // Switch to absolute positioning so it can fly around
+            btn.style.position = 'absolute';
+
+            // Calculate boundaries relative to the main-card
+            const maxX = card.clientWidth - btn.clientWidth - 30;
+            const maxY = card.clientHeight - btn.clientHeight - 30;
+
             const x = Math.random() * maxX;
             const y = Math.random() * maxY;
-    
+
             btn.style.left = x + 'px';
             btn.style.top = y + 'px';
         }
