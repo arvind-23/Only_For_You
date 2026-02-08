@@ -9,7 +9,6 @@
     <style>
         :root {
             --primary-pink: #ff4d6d;
-            --secondary-pink: #ff85a1;
             --bg-light: #fff0f3;
             --text-dark: #2d3436;
             --heart-gradient: linear-gradient(45deg, #ff4d6d, #ff758c);
@@ -18,89 +17,91 @@
         body {
             margin: 0; padding: 0;
             display: flex; justify-content: center; align-items: center;
-            min-height: 100vh;
-            background-color: var(--bg-light);
-            font-family: 'Poppins', sans-serif;
-            overflow: hidden; touch-action: manipulation;
+            min-height: 100vh; background-color: var(--bg-light);
+            font-family: 'Poppins', sans-serif; overflow: hidden;
+            touch-action: manipulation;
         }
 
-        /* --- ENTRANCE PAGE --- */
+        /* --- ENTRANCE --- */
         #reveal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-light);
-            z-index: 1000;
+            background: var(--bg-light); z-index: 1000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             transition: opacity 0.8s ease;
         }
 
         .elegant-heart {
-            position: relative; width: 150px; height: 135px;
-            cursor: pointer; animation: sensualThrob 2.5s infinite ease-in-out;
-            filter: drop-shadow(0 0 30px rgba(255, 77, 109, 0.5));
+            position: relative; width: 140px; height: 125px;
+            cursor: pointer; animation: throb 2.5s infinite ease-in-out;
         }
         .elegant-heart:before, .elegant-heart:after {
-            content: ""; position: absolute; left: 75px; top: 0;
-            width: 75px; height: 125px; background: var(--heart-gradient);
-            border-radius: 75px 75px 0 0; transform: rotate(-45deg); transform-origin: 0 100%;
+            content: ""; position: absolute; left: 70px; top: 0;
+            width: 70px; height: 115px; background: var(--heart-gradient);
+            border-radius: 70px 70px 0 0; transform: rotate(-45deg); transform-origin: 0 100%;
         }
         .elegant-heart:after { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
 
-        @keyframes sensualThrob {
-            0%, 100% { transform: scale(1); }
-            45% { transform: scale(1.15); }
-        }
+        @keyframes throb { 0%, 100% { transform: scale(1); } 45% { transform: scale(1.15); } }
 
         .entrance-text {
-            margin-top: 50px; font-family: 'Dancing Script', cursive; 
-            color: var(--primary-pink); font-size: 3rem; font-weight: 800;
+            margin-top: 40px; font-family: 'Dancing Script', cursive; 
+            color: var(--primary-pink); font-size: 2.5rem; font-weight: 800;
         }
 
-        /* --- MAIN CARD & BUTTONS --- */
+        /* --- CARD & BUTTONS --- */
         #main-card {
             background: white; padding: 30px; border-radius: 30px;
             box-shadow: 0 15px 45px rgba(255, 77, 109, 0.2);
-            z-index: 10; max-width: 450px; width: 85%; min-height: 400px;
-            display: none; position: relative;
+            z-index: 10; max-width: 400px; width: 85%; min-height: 450px;
+            display: none; position: relative; text-align: center;
         }
 
-        h1 { color: var(--primary-pink); font-family: 'Dancing Script', cursive; font-size: 2.4rem; }
-
-        .btn-container {
-            margin-top: 50px; display: flex; justify-content: center;
-            gap: 20px; position: relative; height: 200px;
-        }
-
+        .btn-container { margin-top: 40px; position: relative; height: 150px; display: flex; justify-content: center; gap: 20px; }
+        
         button {
-            padding: 12px 35px; font-size: 1rem; border: none; border-radius: 12px;
+            padding: 12px 30px; font-size: 0.9rem; border: none; border-radius: 12px;
             cursor: pointer; font-weight: 600; font-family: 'Montserrat', sans-serif;
-            text-transform: uppercase; transition: transform 0.2s;
+            text-transform: uppercase;
         }
 
         #yesBtn { background: var(--text-dark); color: white; position: relative; z-index: 1; }
-        #noBtn { background: #eee; color: var(--text-dark); position: relative; z-index: 2; }
+        #noBtn { 
+            background: #f0f0f0; color: var(--text-dark); position: relative; z-index: 2; 
+            -webkit-tap-highlight-color: transparent;
+        }
 
-        /* --- SUCCESS & CAROUSEL --- */
+        /* --- CAROUSEL --- */
         #success-screen { display: none; }
         .carousel-container {
-            position: relative; width: 280px; height: 350px;
+            position: relative; width: 280px; height: 380px;
             margin: 20px auto; background: white; padding: 10px 10px 40px 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1); transform: rotate(-2deg);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); transform: rotate(-1deg);
         }
         .carousel-slide {
-            position: absolute; top: 10px; left: 10px; width: 280px; height: 280px;
-            opacity: 0; transition: opacity 0.8s;
+            position: absolute; top: 10px; left: 10px; width: 280px; height: 300px;
+            opacity: 0; transition: opacity 0.8s; cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
-        .carousel-slide.active { opacity: 1; }
-        .carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
+        .carousel-slide.active { opacity: 1; z-index: 5; }
+        .carousel-slide img { 
+            width: 100%; height: 100%; object-fit: cover; 
+            pointer-events: none; -webkit-touch-callout: none;
+        }
         
         .note-reveal {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 77, 109, 0.9); color: white;
+            background: rgba(255, 77, 109, 0.95); color: white;
             display: flex; justify-content: center; align-items: center;
-            padding: 20px; font-family: 'Dancing Script', cursive; font-size: 1.5rem;
-            opacity: 0; transition: opacity 0.3s;
+            padding: 20px; font-family: 'Dancing Script', cursive; font-size: 1.6rem;
+            opacity: 0; transition: opacity 0.3s; pointer-events: none;
         }
         .carousel-slide.active-note .note-reveal { opacity: 1; }
+
+        .wa-link {
+            margin-top: 20px; display: inline-block; color: var(--primary-pink);
+            font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--primary-pink);
+            font-size: 0.8rem; letter-spacing: 1px;
+        }
 
         .hearts-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
     </style>
@@ -113,32 +114,33 @@
     </div>
 
     <div class="hearts-bg" id="hearts-bg"></div>
-    <audio id="beforeMusic" loop preload="auto"><source src="before_music.mp3" type="audio/mpeg"></audio>
-    <audio id="afterMusic" loop preload="auto"><source src="after_music.mp3" type="audio/mpeg"></audio>
+    <audio id="beforeMusic" loop><source src="before_music.mp3" type="audio/mpeg"></audio>
+    <audio id="afterMusic" loop><source src="after_music.mp3" type="audio/mpeg"></audio>
 
     <div id="main-card">
         <div id="question-area">
-            <h1>Will you be my Valentine? 🌹</h1>
-            <div class="btn-container" id="btnWrapper">
+            <h1 style="color:var(--primary-pink); font-family:'Dancing Script';">Will you be my Valentine? 🌹</h1>
+            <div class="btn-container">
                 <button id="yesBtn" onclick="celebrate()">Yes</button>
                 <button id="noBtn">No</button>
             </div>
         </div>
 
         <div id="success-screen">
-            <h1>Yay! ❤️</h1>
+            <h1 style="color:var(--primary-pink); font-family:'Dancing Script';">I love you, Megha! ❤️</h1>
             <div class="carousel-container">
                 <div class="carousel-slide active" onclick="toggleNote(this)">
-                    <img src="img1.jpg"><div class="note-reveal">You make every day brighter.</div>
+                    <img src="img1.jpg"><div class="note-reveal">You are my favorite memory.</div>
                 </div>
                 <div class="carousel-slide" onclick="toggleNote(this)">
-                    <img src="img2.jpg"><div class="note-reveal">My favorite person, always.</div>
+                    <img src="img2.jpg"><div class="note-reveal">Every day with you is a gift.</div>
                 </div>
                 <div class="carousel-slide" onclick="toggleNote(this)">
-                    <img src="img3.jpg"><div class="note-reveal">To many more memories together!</div>
+                    <img src="img3.jpg"><div class="note-reveal">To a lifetime of Us. ❤️</div>
                 </div>
             </div>
-            <a href="#" style="color:var(--primary-pink); font-size:0.8rem;" onclick="sendWhatsApp()">MESSAGE ME ❤️</a>
+            <p style="font-size:0.7rem; color:#999;">(Tap images to read my notes)</p>
+            <a href="#" class="wa-link" onclick="sendWhatsApp()">CONFIRM ON WHATSAPP</a>
         </div>
     </div>
 
@@ -147,6 +149,11 @@
         const afterMusic = document.getElementById('afterMusic');
         const noBtn = document.getElementById('noBtn');
         const card = document.getElementById('main-card');
+        const slides = document.querySelectorAll('.carousel-slide');
+        
+        let carouselTimer;
+        let currentIndex = 0;
+        let isCelebrated = false;
 
         function revealPage() {
             document.getElementById('reveal-overlay').style.opacity = '0';
@@ -157,32 +164,43 @@
             }, 800);
         }
 
-        // --- ELITE RUNAWAY LOGIC ---
+        // --- THE RUNAWAY BUTTON (GHOST CLICK FIXED) ---
         function moveNoButton(e) {
-            if (e) e.preventDefault(); // KILL GHOST CLICKS
+            if (e) e.preventDefault(); 
             noBtn.style.position = 'absolute';
-            
-            const padding = 20;
-            const maxX = card.offsetWidth - noBtn.offsetWidth - padding;
-            const maxY = card.offsetHeight - noBtn.offsetHeight - padding;
-
-            // Ensure it doesn't just jump to the exact same spot
-            const newX = Math.random() * maxX;
-            const newY = Math.random() * maxY;
-
-            noBtn.style.left = newX + 'px';
-            noBtn.style.top = newY + 'px';
+            const maxX = card.offsetWidth - noBtn.offsetWidth - 20;
+            const maxY = card.offsetHeight - noBtn.offsetHeight - 20;
+            noBtn.style.left = Math.random() * maxX + 'px';
+            noBtn.style.top = Math.random() * maxY + 'px';
         }
-
-        // Attach listeners for both Mouse and Touch
         noBtn.addEventListener('touchstart', moveNoButton, {passive: false});
         noBtn.addEventListener('mouseover', moveNoButton);
 
+        // --- CAROUSEL & NOTES ---
         function toggleNote(el) {
-            el.classList.toggle('active-note');
+            if (el.classList.contains('active-note')) {
+                el.classList.remove('active-note');
+                resumeCarousel();
+            } else {
+                stopCarousel();
+                slides.forEach(s => s.classList.remove('active-note'));
+                el.classList.add('active-note');
+            }
         }
 
-        let isCelebrated = false;
+        function resumeCarousel() {
+            if (carouselTimer) clearInterval(carouselTimer);
+            carouselTimer = setInterval(() => {
+                if (!document.querySelector('.active-note')) {
+                    slides[currentIndex].classList.remove('active');
+                    currentIndex = (currentIndex + 1) % slides.length;
+                    slides[currentIndex].classList.add('active');
+                }
+            }, 3000);
+        }
+
+        function stopCarousel() { clearInterval(carouselTimer); }
+
         function celebrate() {
             if (isCelebrated) return;
             isCelebrated = true;
@@ -190,35 +208,30 @@
             document.getElementById('success-screen').style.display = 'block';
             beforeMusic.pause();
             afterMusic.play().catch(() => {});
-            startCarousel();
+            resumeCarousel();
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
         }
 
-        function startCarousel() {
-            const slides = document.querySelectorAll('.carousel-slide');
-            let i = 0;
-            setInterval(() => {
-                slides[i].classList.remove('active', 'active-note');
-                i = (i + 1) % slides.length;
-                slides[i].classList.add('active');
-            }, 3500);
-        }
-
         function sendWhatsApp() {
-            window.open(`https://wa.me/1234567890?text=I%20said%20YES!%20❤️`, '_blank');
+            const num = "91XXXXXXXXXX"; // YOUR NUMBER: COUNTRY CODE + NUMBER
+            const msg = "I saw the website... It's a YES! ❤️";
+            window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        // Background Hearts
+        // Floating Hearts Background
         setInterval(() => {
             const h = document.createElement('div');
             h.className = 'heart-particle';
             h.innerHTML = '❤️';
             h.style.left = Math.random() * 100 + 'vw';
-            h.style.fontSize = (Math.random() * 20 + 10) + 'px';
-            h.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            h.style.fontSize = (Math.random() * 15 + 10) + 'px';
+            h.style.position = 'fixed';
+            h.style.bottom = '-20px';
+            h.style.opacity = '0.4';
+            h.animate([{transform: 'translateY(0)'}, {transform: 'translateY(-110vh)'}], {duration: 4000});
             document.getElementById('hearts-bg').appendChild(h);
-            setTimeout(() => h.remove(), 5000);
-        }, 400);
+            setTimeout(() => h.remove(), 4000);
+        }, 500);
     </script>
 </body>
 </html>
